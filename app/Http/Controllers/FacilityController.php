@@ -22,7 +22,7 @@ class FacilityController extends Controller
         $lat = $request->query('lat');
         $lng = $request->query('lng');
         $radius = $request->query('radius', 50); // Default 50km
-        $sort = $request->query('sort', 'distance'); // distance or rating
+        $sort = $request->query('sort', 'distance'); // distance, rating, or all
 
         if (!$lat || !$lng) {
             return response()->json(['error' => 'Latitude and Longitude are required'], 400);
@@ -33,8 +33,11 @@ class FacilityController extends Controller
             ->selectRaw(
                 "(6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance",
                 [$lat, $lng, $lat]
-            )
-            ->having('distance', '<=', $radius);
+            );
+
+        if ($sort !== 'all') {
+            $query->having('distance', '<=', $radius);
+        }
 
         if ($sort === 'rating') {
             $query->orderBy('rating', 'desc');

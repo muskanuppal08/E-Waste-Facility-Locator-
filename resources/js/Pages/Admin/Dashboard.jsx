@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import EducationSection from '@/Components/Education/EducationSection';
 
 export default function Dashboard() {
@@ -23,11 +23,14 @@ export default function Dashboard() {
                             </p>
                             
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                                <div className="p-6 bg-slate-700/50 rounded-xl border border-slate-600">
-                                    <h4 className="font-bold text-cyan-400">Facilities</h4>
-                                    <p className="text-2xl font-bold">24</p>
-                                    <p className="text-xs text-slate-500 mt-1">Total active centers</p>
-                                </div>
+                                <Link 
+                                    href={route('admin.facilities.index')}
+                                    className="p-6 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-cyan-400 transition-colors group"
+                                >
+                                    <h4 className="font-bold text-cyan-400 group-hover:scale-105 transition-transform origin-left">Manage Facilities</h4>
+                                    <p className="text-2xl font-bold">Facilities List</p>
+                                    <p className="text-xs text-slate-500 mt-1">Add, edit, or remove recycling centers</p>
+                                </Link>
                                 <div className="p-6 bg-slate-700/50 rounded-xl border border-slate-600">
                                     <h4 className="font-bold text-emerald-400">Users</h4>
                                     <p className="text-2xl font-bold">1,240</p>

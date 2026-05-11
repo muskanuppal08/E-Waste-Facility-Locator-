@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminFacilityController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserDashboardController;
@@ -38,6 +39,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
+        
+        // Facility Management
+        Route::resource('facilities', AdminFacilityController::class);
     });
 });
 

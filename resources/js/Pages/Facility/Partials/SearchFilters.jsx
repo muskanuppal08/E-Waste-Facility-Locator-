@@ -78,6 +78,7 @@ export default function SearchFilters({ onSearch, filters, setFilters }) {
                     >
                         <option value="distance">Nearest</option>
                         <option value="rating">Highest Rated</option>
+                        <option value="all">Show All</option>
                     </select>
                 </div>
             </div>
