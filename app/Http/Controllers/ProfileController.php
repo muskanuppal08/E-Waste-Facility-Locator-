@@ -33,11 +33,9 @@ class ProfileController extends Controller
             'email' => 'required|email|max:255',
 
             'city' => 'nullable|string|max:255',
-
+            'pincode' => 'nullable|string|max:10',
             'phone' => 'nullable|string|max:20',
-
-            'profile_picture' =>
-                'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         // Upload profile picture
@@ -57,9 +55,8 @@ class ProfileController extends Controller
         $user->email = $request->email;
 
         $user->city = $request->city;
-
+        $user->pincode = $request->pincode;
         $user->phone = $request->phone;
-
         $user->save();
 
         return Redirect::route('profile.edit')

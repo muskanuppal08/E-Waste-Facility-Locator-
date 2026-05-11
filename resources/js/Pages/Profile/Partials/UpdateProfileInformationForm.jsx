@@ -16,7 +16,6 @@ export default function UpdateProfileInformation({
     const {
         data,
         setData,
-        post,
         errors,
         processing,
         recentlySuccessful
@@ -24,6 +23,7 @@ export default function UpdateProfileInformation({
         name: user.name,
         email: user.email,
         city: user.city || '',
+        pincode: user.pincode || '',
         phone: user.phone || '',
         profile_picture: null,
     });
@@ -33,23 +33,15 @@ export default function UpdateProfileInformation({
         e.preventDefault();
     
         router.post(route('profile.update'), {
-    
             _method: 'patch',
-    
             name: data.name,
-    
             email: data.email,
-    
             city: data.city,
-    
+            pincode: data.pincode,
             phone: data.phone,
-    
             profile_picture: data.profile_picture,
-    
         }, {
-    
             forceFormData: true,
-    
             preserveScroll: true,
         });
     };
@@ -137,6 +129,24 @@ export default function UpdateProfileInformation({
 
                 </div>
 
+                <div>
+
+                    <InputLabel htmlFor="pincode" value="Pincode" />
+
+                    <TextInput
+                        id="pincode"
+                        className="mt-1 block w-full"
+                        value={data.pincode}
+                        onChange={(e) => setData('pincode', e.target.value)}
+                    />
+
+                    <InputError
+                        className="mt-2"
+                        message={errors.pincode}
+                    />
+
+                </div>
+
                 {/* Phone */}
 
                 <div>
@@ -166,15 +176,15 @@ export default function UpdateProfileInformation({
     value="Profile Picture"
 />
 
-{user.profile_picture && (
+                    {user.profile_picture_url && (
 
-    <img
-        src={`/storage/${user.profile_picture}`}
-        alt="Profile"
-        className="w-24 h-24 rounded-full object-cover mb-4"
-    />
+                        <img
+                            src={user.profile_picture_url}
+                            alt="Profile"
+                            className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-emerald-500"
+                        />
 
-)}
+                    )}
 
 <input
     type="file"

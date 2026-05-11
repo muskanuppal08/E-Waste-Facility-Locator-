@@ -11,6 +11,9 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        city: '',
+        pincode: '',
+        profile_picture: null,
     });
 
     const submit = (e) => {
@@ -75,6 +78,50 @@ export default function Register() {
                     />
 
                     <InputError message={errors.password} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="city" value="City" />
+
+                    <TextInput
+                        id="city"
+                        name="city"
+                        value={data.city}
+                        className="mt-1 block w-full"
+                        onChange={(e) => setData('city', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.city} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="pincode" value="Pincode" />
+
+                    <TextInput
+                        id="pincode"
+                        name="pincode"
+                        value={data.pincode}
+                        className="mt-1 block w-full"
+                        onChange={(e) => setData('pincode', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.pincode} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="profile_picture" value="Profile Picture" />
+
+                    <input
+                        id="profile_picture"
+                        type="file"
+                        name="profile_picture"
+                        className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                        onChange={(e) => setData('profile_picture', e.target.files[0])}
+                    />
+
+                    <InputError message={errors.profile_picture} className="mt-2" />
                 </div>
 
                 <div className="mt-4">

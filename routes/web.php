@@ -1,100 +1,62 @@
 <?php
 
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\EwasteController;
-
 /*
 |--------------------------------------------------------------------------
-| Home (Inertia default)
+| Web Routes
 |--------------------------------------------------------------------------
 */
 
+// Home Page - Role Selection
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Home');
+})->name('home');
+
+// ─── User Area (requires auth + email verified + user role) ───────────────
+Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+    
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Dashboard
-|--------------------------------------------------------------------------
-*/
+// ─── Admin Area (requires auth + admin role) ──────────────────────────────
+Route::prefix('admin')->name('admin.')->group(function () {
+    
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [AdminLoginController::class, 'login']);
+    });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-/*
-|--------------------------------------------------------------------------
-| Auth Protected Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware('auth')->group(function () {
-
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
-
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
-
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
+    });
 });
 
-/*
-|--------------------------------------------------------------------------
-| AUTH ROUTES
-|--------------------------------------------------------------------------
-*/
+// ─── Facility Locator ──────────────────────────────────────────────────────
+Route::get('/locator', [App\Http\Controllers\FacilityController::class, 'index'])->name('locator');
+
+Route::prefix('api')->group(function () {
+    Route::get('/facilities/nearby', [App\Http\Controllers\FacilityController::class, 'nearby']);
+    Route::get('/facilities/search', [App\Http\Controllers\FacilityController::class, 'search']);
+    Route::get('/facilities/open-now', [App\Http\Controllers\FacilityController::class, 'openNow']);
+    Route::get('/facilities/{id}', [App\Http\Controllers\FacilityController::class, 'show']);
+    Route::post('/facilities/{id}/review', [App\Http\Controllers\FacilityController::class, 'storeReview'])->middleware('auth');
+
+    // E-Waste Education
+    Route::get('/devices', [App\Http\Controllers\EducationController::class, 'index']);
+    Route::post('/devices', [App\Http\Controllers\EducationController::class, 'store']);
+    Route::put('/devices/{id}', [App\Http\Controllers\EducationController::class, 'update']);
+    Route::delete('/devices/{id}', [App\Http\Controllers\EducationController::class, 'destroy']);
+});
+
+// ─── Shared Auth Routes (Breeze) ──────────────────────────────────────────
 require __DIR__.'/auth.php';
-
-/*
-|--------------------------------------------------------------------------
-| FACILITY LOCATOR (MAP PAGE)
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/facility-locator', function () {
-    return view('facility.locator');
-});
-
-/*
-|--------------------------------------------------------------------------
-| NEAREST CENTERS API (IMPORTANT)
-|--------------------------------------------------------------------------
-*/
-
-Route::post('/nearest-centers', [EwasteController::class, 'nearest'])
-    ->name('centers.nearest');
-
-/*
-|--------------------------------------------------------------------------
-| EDUCATION MODULE
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/education', function () {
-    return view('education.index');
-});
-
-/*
-|--------------------------------------------------------------------------
-| ADMIN PANEL
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/admin/centers', [EwasteController::class, 'adminIndex']);
-
-Route::get('/admin/centers/create', [EwasteController::class, 'create']);
-
-Route::post('/admin/centers/store', [EwasteController::class, 'store'])
-    ->name('centers.store');

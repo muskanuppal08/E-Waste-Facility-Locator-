@@ -19,4 +19,29 @@ class EwasteCenter extends Model
         'close_time',
         'accepted_items'
     ];
+
+    protected $casts = [
+        'latitude' => 'float',
+        'longitude' => 'float',
+    ];
+
+    public function getIsOpenNowAttribute(): bool
+    {
+        if (!$this->open_time || !$this->close_time) return true;
+
+        $now = now()->format('H:i:s');
+        return $now >= $this->open_time && $now <= $this->close_time;
+    }
+
+    public function getAcceptedItemsArrayAttribute(): array
+    {
+        return $this->accepted_items ? explode(',', $this->accepted_items) : [];
+    }
+
+    protected $appends = ['is_open_now', 'accepted_items_array'];
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'ewaste_center_id');
+    }
 }
