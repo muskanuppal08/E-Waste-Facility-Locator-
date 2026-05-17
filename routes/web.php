@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\PickupController;
 use App\Models\PickupRequest;
+use App\Http\Controllers\SystemController;
 
 //Home Page
 Route::get('/', function () {
@@ -71,6 +72,10 @@ Route::get('/admin/dashboard', function () {
         'dbPickups' => PickupRequest::orderBy('created_at', 'desc')->get() 
     ]);
 });
+
+//End-to-End routes
+Route::post('/api/admin/pickup/status', [SystemController::class, 'updatePickupStatus']);
+Route::get('/api/user/stats', [SystemController::class, 'getUserStats']);
 
 
 // (You can leave the rest of the file as-is for now)

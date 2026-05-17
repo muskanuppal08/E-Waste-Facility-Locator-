@@ -1,13 +1,10 @@
-import { Head } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
+import { Head, Link } from '@inertiajs/react';
 import { useUser } from '@clerk/clerk-react';
 import MainLayout from '@/Layouts/MainLayout';
+import axios from 'axios';
 
-// Mock Data
-const MOCK_PICKUPS = [
-    { id: "PK-8892", device: "MacBook Pro 2018", date: "May 20, 2026", time: "10:00 AM", status: "Approved", statusColor: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20" },
-    { id: "PK-8841", device: "iPhone 12 Pro", date: "May 18, 2026", time: "02:30 PM", status: "Completed", statusColor: "text-stone-400 bg-stone-800 border-stone-700" },
-    { id: "PK-8910", device: "Dell XPS 15", date: "May 24, 2026", time: "Pending", status: "Pending", statusColor: "text-amber-400 bg-amber-400/10 border-amber-400/20" },
-];
+
 
 const MOCK_LEADERBOARD = [
     { rank: 1, name: "Sarah J.", points: 12450, badge: "Earth Saver" },
@@ -22,6 +19,25 @@ const WEEKLY_IMPACT = [40, 65, 30, 85, 55, 90, 70];
 
 export default function Dashboard() {
     const { user, isLoaded } = useUser();
+    
+    const [stats, setStats] = useState({
+        points: 0,
+        co2: 0,
+        metals: 0,
+        devices: 0,
+        pickups: [],
+        leaderboard: []
+    });
+
+    useEffect(() => {
+        // Once Clerk confirms who is logged in, ask Laravel for their specific stats
+        if (isLoaded && user) {
+            const email = user.primaryEmailAddress?.emailAddress;
+            axios.get(`/api/user/stats?email=${email}`)
+                .then(res => setStats(res.data))
+                .catch(err => console.error(err));
+        }
+    }, [isLoaded, user]);
 
     // Prevent rendering weird states if Clerk is still loading
     if (!isLoaded) return <div className="flex items-center justify-center min-h-screen bg-stone-950"><div className="w-8 h-8 border-2 rounded-full border-emerald-500 border-t-transparent animate-spin"></div></div>;
@@ -49,7 +65,7 @@ export default function Dashboard() {
                                     className="w-20 h-20 rounded-2xl border-2 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.2)] object-cover"
                                 />
                                 <div className="absolute p-1 rounded-full -bottom-2 -right-2 bg-stone-900">
-                                    <div className="bg-emerald-500 text-stone-950 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Lv. 12</div>
+                                    <div className="bg-emerald-500 text-stone-950 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Lv. 1</div>
                                 </div>
                             </div>
                             <div>
@@ -67,14 +83,10 @@ export default function Dashboard() {
                             <div>
                                 <p className="mb-1 text-sm font-medium tracking-widest uppercase text-stone-400">Total Eco Points</p>
                                 <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">
-                                    8,450
+                                    {stats.points}
                                 </p>
                             </div>
-                            <div className="hidden w-px sm:block bg-stone-800"></div>
-                            <div className="hidden sm:block">
-                                <p className="mb-1 text-sm font-medium tracking-widest uppercase text-stone-400">Global Rank</p>
-                                <p className="text-4xl font-black text-white">#1,042</p>
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -110,15 +122,15 @@ export default function Dashboard() {
                                 <div className="grid grid-cols-3 gap-4 pt-6 mt-8 border-t border-stone-800">
                                     <div>
                                         <p className="mb-1 text-xs font-bold tracking-wider uppercase text-stone-400">Devices Recycled</p>
-                                        <p className="text-2xl font-black text-white">12</p>
+                                        <p className="text-2xl font-black text-white">{stats.devices}</p>
                                     </div>
                                     <div>
                                         <p className="mb-1 text-xs font-bold tracking-wider uppercase text-stone-400">CO₂ Offset (kg)</p>
-                                        <p className="text-2xl font-black text-white">45.2</p>
+                                        <p className="text-2xl font-black text-white">{stats.co2}</p>
                                     </div>
                                     <div>
                                         <p className="mb-1 text-xs font-bold tracking-wider uppercase text-stone-400">Metals Yield</p>
-                                        <p className="text-2xl font-black text-white">1.8 <span className="text-sm font-medium text-stone-500">kg</span></p>
+                                        <p className="text-2xl font-black text-white">{stats.metals} <span className="text-sm font-medium text-stone-500">kg</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -143,13 +155,13 @@ export default function Dashboard() {
                                             </tr>
                                         </thead>
                                         <tbody className="text-sm">
-                                            {MOCK_PICKUPS.map((pickup, idx) => (
+                                            {stats.pickups.map((pickup, idx) => (
                                                 <tr key={idx} className="transition-colors border-b border-stone-800/50 hover:bg-stone-800/20">
-                                                    <td className="py-4 pl-2 font-medium text-stone-300">{pickup.id}</td>
-                                                    <td className="py-4 font-bold text-white">{pickup.device}</td>
+                                                    <td className="py-4 pl-2 font-medium text-stone-300">{pickup.request_id}</td>
+                                                    <td className="py-4 font-bold text-white"><span className="capitalize">{pickup.device_type}</span></td>
                                                     <td className="py-4 text-stone-400">
-                                                        <span className="block text-white">{pickup.date}</span>
-                                                        <span className="text-xs">{pickup.time}</span>
+                                                        <span className="block text-white">{pickup.scheduled_date}</span>
+                                                        <span className="text-xs">{pickup.time_slot}</span>
                                                     </td>
                                                     <td className="py-4 pr-2 text-right">
                                                         <span className={`px-3 py-1 rounded-full text-xs font-bold border ${pickup.statusColor}`}>
@@ -177,7 +189,7 @@ export default function Dashboard() {
                                 </div>
 
                                 <div className="space-y-4">
-                                    {MOCK_LEADERBOARD.map((user, idx) => (
+                                    {stats.leaderboard.map((user, idx) => (
                                         <div 
                                             key={idx} 
                                             className={`flex items-center justify-between p-3 rounded-xl border transition-colors ${

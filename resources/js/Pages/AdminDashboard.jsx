@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import MainLayout from '@/Layouts/MainLayout';
 import AdminLayout from '@/Layouts/AdminLayout';
+import axios from 'axios';
 
 // Mock Analytics Data
 const ANALYTICS = {
@@ -24,10 +25,21 @@ const INITIAL_QUEUE = [
 export default function AdminDashboard({ dbPickups }) {
     const [queue, setQueue] = useState(dbPickups || []);
     // Function to handle status updates in the UI
-    const updateStatus = (id, newStatus) => {
+    const updateStatus = async (id, newStatus) => {
+        // 1. Instantly update the UI so it feels lightning fast for the admin
         setQueue(queue.map(item => 
             item.id === id ? { ...item, status: newStatus } : item
         ));
+
+        // 2. Silently update the Laravel Database in the background
+        try {
+            await axios.post('/api/admin/pickup/status', {
+                id: id,
+                status: newStatus
+            });
+        } catch (error) {
+            console.error("Database sync failed", error);
+        }
     };
 
     const getStatusStyle = (status) => {
