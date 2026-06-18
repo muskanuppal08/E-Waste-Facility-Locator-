@@ -45,6 +45,15 @@ export default function UpdateProfileInformation({
             preserveScroll: true,
         });
     };
+
+    const deleteProfilePicture = () => {
+        if (confirm('Are you sure you want to delete your profile picture?')) {
+            router.delete(route('profile.picture.destroy'), {
+                preserveScroll: true,
+            });
+        }
+    };
+
     return (
 
         <section className={className}>
@@ -177,13 +186,22 @@ export default function UpdateProfileInformation({
 />
 
                     {user.profile_picture_url && (
-
-                        <img
-                            src={user.profile_picture_url}
-                            alt="Profile"
-                            className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-emerald-500"
-                        />
-
+                        <div className="flex items-center gap-4 mb-4">
+                            <img
+                                src={user.profile_picture_url}
+                                alt="Profile"
+                                className="w-24 h-24 rounded-full object-cover border-2 border-emerald-500"
+                            />
+                            {user.profile_picture && (
+                                <button
+                                    type="button"
+                                    onClick={deleteProfilePicture}
+                                    className="px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-md transition duration-150 ease-in-out cursor-pointer"
+                                >
+                                    Delete Photo
+                                </button>
+                            )}
+                        </div>
                     )}
 
 <input

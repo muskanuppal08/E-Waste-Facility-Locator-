@@ -24,6 +24,6 @@ class VerifyEmailController extends Controller
         }
 
         $route = $request->user()->isAdmin() ? 'admin.dashboard' : 'dashboard';
-        return redirect()->route($route);
+        return redirect()->intended(route($route, absolute: false).'?verified=1');
     }
 }

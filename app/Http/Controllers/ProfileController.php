@@ -57,6 +57,11 @@ class ProfileController extends Controller
         $user->city = $request->city;
         $user->pincode = $request->pincode;
         $user->phone = $request->phone;
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
         $user->save();
 
         return Redirect::route('profile.edit')
@@ -69,7 +74,7 @@ class ProfileController extends Controller
     public function destroy(Request $request)
     {
         $request->validate([
-            'password' => ['required'],
+            'password' => ['required', 'current_password'],
         ]);
 
         $user = $request->user();
@@ -83,5 +88,22 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Delete the user's profile picture.
+     */
+    public function destroyPicture(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->profile_picture) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profile_picture);
+            $user->profile_picture = null;
+            $user->save();
+        }
+
+        return Redirect::route('profile.edit')
+            ->with('status', 'profile-picture-deleted');
     }
 }
