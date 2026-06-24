@@ -45,6 +45,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                         >
                                             Manage Reviews
                                         </NavLink>
+                                        <NavLink
+                                            href={route('admin.pickups.index')}
+                                            active={route().current('admin.pickups.*')}
+                                        >
+                                            Manage Pickups
+                                        </NavLink>
                                     </>
                                 )}
 
@@ -212,6 +218,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                     active={route().current('admin.reviews.index')}
                                 >
                                     Manage Reviews
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.pickups.index')}
+                                    active={route().current('admin.pickups.index')}
+                                >
+                                    Manage Pickups
                                 </ResponsiveNavLink>
                             </>
                         )}

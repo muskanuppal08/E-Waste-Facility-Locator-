@@ -197,4 +197,78 @@ class PickupRequestTest extends TestCase
             'status' => 'Pending'
         ]);
     }
+
+    public function test_guest_cannot_access_admin_pickups_page(): void
+    {
+        $response = $this->get('/admin/pickups');
+        $response->assertRedirect();
+    }
+
+    public function test_user_cannot_access_admin_pickups_page(): void
+    {
+        $user = User::factory()->create(['role' => 'user']);
+        $response = $this->actingAs($user)->get('/admin/pickups');
+        $response->assertRedirect('/');
+    }
+
+    public function test_admin_can_access_admin_pickups_page(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $response = $this->actingAs($admin)->get('/admin/pickups');
+        $response->assertStatus(200);
+    }
+
+    public function test_admin_can_update_pickup_status_to_scheduled(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'user']);
+        $pickup = PickupRequest::create([
+            'user_id' => $user->id,
+            'device_type' => 'Battery',
+            'pickup_date' => now()->addDays(2)->format('Y-m-d'),
+            'pickup_time' => 'Morning (9 AM - 12 PM)',
+            'address' => '123 green avenue, eco city, pin 110001',
+            'contact_phone' => '9876543210',
+            'status' => 'Pending'
+        ]);
+
+        $response = $this->actingAs($admin)->post("/admin/pickups/{$pickup->id}/status", [
+            'status' => 'Scheduled',
+            'notes' => 'Collection driver assigned: John Doe'
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('status', 'Pickup request status updated successfully!');
+        $this->assertDatabaseHas('pickup_requests', [
+            'id' => $pickup->id,
+            'status' => 'Scheduled',
+            'notes' => 'Collection driver assigned: John Doe'
+        ]);
+    }
+
+    public function test_admin_status_update_validation(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'user']);
+        $pickup = PickupRequest::create([
+            'user_id' => $user->id,
+            'device_type' => 'Battery',
+            'pickup_date' => now()->addDays(2)->format('Y-m-d'),
+            'pickup_time' => 'Morning (9 AM - 12 PM)',
+            'address' => '123 green avenue, eco city, pin 110001',
+            'contact_phone' => '9876543210',
+            'status' => 'Pending'
+        ]);
+
+        $response = $this->actingAs($admin)->post("/admin/pickups/{$pickup->id}/status", [
+            'status' => 'InvalidStatus'
+        ]);
+
+        $response->assertSessionHasErrors(['status']);
+        $this->assertDatabaseHas('pickup_requests', [
+            'id' => $pickup->id,
+            'status' => 'Pending'
+        ]);
+    }
 }
+

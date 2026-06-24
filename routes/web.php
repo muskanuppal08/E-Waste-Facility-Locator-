@@ -63,6 +63,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/reviews', [App\Http\Controllers\AdminReviewController::class, 'index'])->name('reviews.index');
         Route::post('/reviews/{id}/approve', [App\Http\Controllers\AdminReviewController::class, 'approve'])->name('reviews.approve');
         Route::delete('/reviews/{id}', [App\Http\Controllers\AdminReviewController::class, 'destroy'])->name('reviews.destroy');
+
+        // Pickup Requests Moderation
+        Route::get('/pickups', [App\Http\Controllers\AdminPickupController::class, 'index'])->name('pickups.index');
+        Route::post('/pickups/{id}/status', [App\Http\Controllers\AdminPickupController::class, 'updateStatus'])->name('pickups.status');
     });
 });
 

@@ -22,7 +22,7 @@ export default function Dashboard({ stats }) {
                                 You have full access to manage recycling facilities, view user reports, and monitor system performance.
                             </p>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-8">
                                 <Link 
                                     href={route('admin.facilities.index')}
                                     className="p-6 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-cyan-400 transition-colors group"
@@ -45,10 +45,20 @@ export default function Dashboard({ stats }) {
                                     <p className="text-xs text-slate-400 mt-1">Total user reviews</p>
                                 </Link>
                                 <div className="p-6 bg-slate-700/50 rounded-xl border border-slate-600">
-                                    <h4 className="font-bold text-violet-400">Reward Calculations</h4>
+                                    <h4 className="font-bold text-violet-400">Calculations</h4>
                                     <p className="text-2xl font-bold text-white">{stats.total_calculations}</p>
-                                    <p className="text-xs text-slate-400 mt-1">Total estimations made</p>
+                                    <p className="text-xs text-slate-400 mt-1">Total estimations</p>
                                 </div>
+                                <Link
+                                    href={route('admin.pickups.index')}
+                                    className="p-6 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-sky-400 transition-colors group"
+                                >
+                                    <h4 className="font-bold text-sky-400 group-hover:scale-105 transition-transform origin-left">Manage Pickups</h4>
+                                    <p className="text-2xl font-bold text-white">{stats.total_pickups}</p>
+                                    <p className="text-xs text-slate-400 mt-1">
+                                        {stats.pending_pickups} pending request{stats.pending_pickups !== 1 ? 's' : ''}
+                                    </p>
+                                </Link>
                             </div>
                         </div>
                     </div>
