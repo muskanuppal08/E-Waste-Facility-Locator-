@@ -17,7 +17,8 @@ class AdminDashboardController extends Controller
             'stats' => [
                 'total_facilities' => EwasteCenter::count(),
                 'total_users' => User::where('role', 'user')->count(),
-                'pending_reports' => Review::count(), // Using reviews as a placeholder for reports
+                'total_reviews' => Review::count(),
+                'total_calculations' => \App\Models\RewardCalculation::count(),
             ]
         ]);
     }

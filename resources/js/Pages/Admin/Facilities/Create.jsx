@@ -5,6 +5,9 @@ export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         address: '',
+        city: '',
+        state: '',
+        pincode: '',
         phone: '',
         latitude: '',
         longitude: '',
@@ -57,6 +60,45 @@ export default function Create() {
                                         required
                                     ></textarea>
                                     {errors.address && <p className="mt-1 text-xs text-red-500">{errors.address}</p>}
+                                </div>
+
+                                {/* City */}
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">City</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-emerald-500 focus:border-emerald-500"
+                                        value={data.city}
+                                        onChange={e => setData('city', e.target.value)}
+                                        required
+                                    />
+                                    {errors.city && <p className="mt-1 text-xs text-red-500">{errors.city}</p>}
+                                </div>
+
+                                {/* State */}
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">State</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-emerald-500 focus:border-emerald-500"
+                                        value={data.state}
+                                        onChange={e => setData('state', e.target.value)}
+                                        required
+                                    />
+                                    {errors.state && <p className="mt-1 text-xs text-red-500">{errors.state}</p>}
+                                </div>
+
+                                {/* PIN Code */}
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">PIN Code</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-emerald-500 focus:border-emerald-500"
+                                        value={data.pincode}
+                                        onChange={e => setData('pincode', e.target.value)}
+                                        required
+                                    />
+                                    {errors.pincode && <p className="mt-1 text-xs text-red-500">{errors.pincode}</p>}
                                 </div>
 
                                 {/* Phone */}

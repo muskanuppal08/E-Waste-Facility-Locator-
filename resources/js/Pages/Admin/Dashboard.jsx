@@ -22,24 +22,32 @@ export default function Dashboard({ stats }) {
                                 You have full access to manage recycling facilities, view user reports, and monitor system performance.
                             </p>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
                                 <Link 
                                     href={route('admin.facilities.index')}
                                     className="p-6 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-cyan-400 transition-colors group"
                                 >
                                     <h4 className="font-bold text-cyan-400 group-hover:scale-105 transition-transform origin-left">Manage Facilities</h4>
-                                    <p className="text-2xl font-bold">{stats.total_facilities}</p>
-                                    <p className="text-xs text-slate-500 mt-1">Total active centers</p>
+                                    <p className="text-2xl font-bold text-white">{stats.total_facilities}</p>
+                                    <p className="text-xs text-slate-400 mt-1">Total active centers</p>
                                 </Link>
                                 <div className="p-6 bg-slate-700/50 rounded-xl border border-slate-600">
                                     <h4 className="font-bold text-emerald-400">Users</h4>
-                                    <p className="text-2xl font-bold">{stats.total_users}</p>
-                                    <p className="text-xs text-slate-500 mt-1">Registered recyclers</p>
+                                    <p className="text-2xl font-bold text-white">{stats.total_users}</p>
+                                    <p className="text-xs text-slate-400 mt-1">Registered recyclers</p>
                                 </div>
+                                <Link
+                                    href={route('admin.reviews.index')}
+                                    className="p-6 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-amber-400 transition-colors group"
+                                >
+                                    <h4 className="font-bold text-amber-400 group-hover:scale-105 transition-transform origin-left">Manage Reviews</h4>
+                                    <p className="text-2xl font-bold text-white">{stats.total_reviews}</p>
+                                    <p className="text-xs text-slate-400 mt-1">Total user reviews</p>
+                                </Link>
                                 <div className="p-6 bg-slate-700/50 rounded-xl border border-slate-600">
-                                    <h4 className="font-bold text-amber-400">Reviews</h4>
-                                    <p className="text-2xl font-bold">{stats.pending_reports}</p>
-                                    <p className="text-xs text-slate-500 mt-1">Total user reviews</p>
+                                    <h4 className="font-bold text-violet-400">Reward Calculations</h4>
+                                    <p className="text-2xl font-bold text-white">{stats.total_calculations}</p>
+                                    <p className="text-xs text-slate-400 mt-1">Total estimations made</p>
                                 </div>
                             </div>
                         </div>

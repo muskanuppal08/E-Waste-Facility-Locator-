@@ -12,6 +12,9 @@ class EwasteCenter extends Model
     protected $fillable = [
         'name',
         'address',
+        'city',
+        'state',
+        'pincode',
         'phone',
         'latitude',
         'longitude',
@@ -43,5 +46,12 @@ class EwasteCenter extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'ewaste_center_id');
+    }
+
+    public function recalculateRating(): void
+    {
+        $this->rating = $this->reviews()->where('approved', true)->avg('rating') ?: 0;
+        $this->total_reviews = $this->reviews()->where('approved', true)->count();
+        $this->save();
     }
 }

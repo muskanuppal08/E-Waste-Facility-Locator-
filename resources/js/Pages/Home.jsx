@@ -30,17 +30,25 @@ export default function Home() {
                                 <p className="text-slate-400">Find centers, track your recycling, and earn reward points.</p>
                             </div>
                             <div className="space-y-3">
-                                <Link
-                                    href={route('login')}
-                                    className="block w-full py-4 px-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-colors text-center"
-                                >
-                                    Enter User Portal
-                                </Link>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <Link
+                                        href={route('login')}
+                                        className="py-3.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-xl transition-colors text-center text-sm shadow-md shadow-emerald-500/10 hover:shadow-emerald-500/20"
+                                    >
+                                        Log In
+                                    </Link>
+                                    <Link
+                                        href={route('register')}
+                                        className="py-3.5 px-4 bg-slate-700 hover:bg-slate-600 text-emerald-400 font-extrabold rounded-xl transition-colors text-center text-sm border border-emerald-500/30"
+                                    >
+                                        Register
+                                    </Link>
+                                </div>
                                 <Link
                                     href={route('locator')}
-                                    className="block w-full py-3 px-6 bg-slate-700 hover:bg-slate-600 text-emerald-400 font-bold rounded-xl transition-colors text-center border border-emerald-500/30"
+                                    className="block w-full py-3 px-6 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white font-bold rounded-xl transition-colors text-center border border-slate-700"
                                 >
-                                    Find Nearest Centers
+                                    Find Nearest Centers (Guest)
                                 </Link>
                             </div>
                         </div>

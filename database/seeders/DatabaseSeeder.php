@@ -15,11 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Seed Standard User
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Standard User',
+            'email' => 'user@ewaste.com',
+            'role' => 'user',
+        ]);
+
+        // Seed Admin User
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@ewaste.com',
+            'role' => 'admin',
+        ]);
+
+        $this->call([
+            EwasteCenterSeeder::class,
+            DeviceSeeder::class,
+            BadgeSeeder::class,
         ]);
     }
 }

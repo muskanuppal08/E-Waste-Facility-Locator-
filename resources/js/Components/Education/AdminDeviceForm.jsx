@@ -66,7 +66,7 @@ export default function AdminDeviceForm({ device, onClose, onSuccess }) {
                             type="text"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-xl focus:ring-2 focus:ring-emerald-500"
+                            className="w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white border-none rounded-xl focus:ring-2 focus:ring-emerald-500"
                             required
                         />
                     </div>
@@ -76,7 +76,7 @@ export default function AdminDeviceForm({ device, onClose, onSuccess }) {
                         <select
                             value={formData.risk_level}
                             onChange={(e) => setFormData({ ...formData, risk_level: e.target.value })}
-                            className="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-xl focus:ring-2 focus:ring-emerald-500"
+                            className="w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white border-none rounded-xl focus:ring-2 focus:ring-emerald-500"
                         >
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
@@ -90,7 +90,7 @@ export default function AdminDeviceForm({ device, onClose, onSuccess }) {
                             type="text"
                             value={formData.harmful_materials}
                             onChange={(e) => setFormData({ ...formData, harmful_materials: e.target.value })}
-                            className="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-xl focus:ring-2 focus:ring-emerald-500"
+                            className="w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white border-none rounded-xl focus:ring-2 focus:ring-emerald-500"
                             placeholder="Lead, Mercury, Cadmium"
                             required
                         />
@@ -101,7 +101,7 @@ export default function AdminDeviceForm({ device, onClose, onSuccess }) {
                         <textarea
                             value={formData.environmental_impact}
                             onChange={(e) => setFormData({ ...formData, environmental_impact: e.target.value })}
-                            className="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-xl focus:ring-2 focus:ring-emerald-500 min-h-[80px]"
+                            className="w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white border-none rounded-xl focus:ring-2 focus:ring-emerald-500 min-h-[80px]"
                             required
                         />
                     </div>
@@ -111,7 +111,7 @@ export default function AdminDeviceForm({ device, onClose, onSuccess }) {
                         <textarea
                             value={formData.health_effects}
                             onChange={(e) => setFormData({ ...formData, health_effects: e.target.value })}
-                            className="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-xl focus:ring-2 focus:ring-emerald-500 min-h-[80px]"
+                            className="w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white border-none rounded-xl focus:ring-2 focus:ring-emerald-500 min-h-[80px]"
                             required
                         />
                     </div>
@@ -121,7 +121,7 @@ export default function AdminDeviceForm({ device, onClose, onSuccess }) {
                         <textarea
                             value={formData.recycling_benefits}
                             onChange={(e) => setFormData({ ...formData, recycling_benefits: e.target.value })}
-                            className="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-xl focus:ring-2 focus:ring-emerald-500 min-h-[80px]"
+                            className="w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white border-none rounded-xl focus:ring-2 focus:ring-emerald-500 min-h-[80px]"
                             required
                         />
                     </div>

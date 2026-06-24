@@ -5,6 +5,7 @@ import axios from 'axios';
 import MapContainer from './Partials/MapContainer';
 import FacilityCard from './Partials/FacilityCard';
 import SearchFilters from './Partials/SearchFilters';
+import FacilityDetails from './Partials/FacilityDetails';
 
 export default function Locator({ auth }) {
     const [userLocation, setUserLocation] = useState(null);
@@ -125,27 +126,41 @@ export default function Locator({ auth }) {
 
                         {/* List Section */}
                         <div className="bg-white dark:bg-gray-800 rounded-lg shadow flex flex-col border border-gray-200 dark:border-gray-700">
-                            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                                <h3 className="font-bold text-lg text-gray-900 dark:text-white">Nearby Facilities</h3>
-                                <p className="text-sm text-gray-500">{filteredFacilities.length} centers found</p>
-                            </div>
-                            
-                            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                                {loading ? (
-                                    <div className="text-center py-10 text-gray-500">Searching...</div>
-                                ) : filteredFacilities.length > 0 ? (
-                                    filteredFacilities.map(facility => (
-                                        <FacilityCard 
-                                            key={facility.id} 
-                                            facility={facility} 
-                                            selected={selectedFacility?.id === facility.id}
-                                            onClick={() => setSelectedFacility(facility)}
-                                        />
-                                    ))
-                                ) : (
-                                    <div className="text-center py-10 text-gray-500">No facilities found in this area.</div>
-                                )}
-                            </div>
+                            {selectedFacility ? (
+                                <FacilityDetails 
+                                    facility={selectedFacility} 
+                                    onClose={() => setSelectedFacility(null)}
+                                    onReviewSubmitted={() => {
+                                        if (userLocation) {
+                                            fetchNearbyFacilities(userLocation.lat, userLocation.lng, filters.sortBy);
+                                        }
+                                    }}
+                                />
+                            ) : (
+                                <>
+                                    <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                                        <h3 className="font-bold text-lg text-gray-900 dark:text-white">Nearby Facilities</h3>
+                                        <p className="text-sm text-gray-500">{filteredFacilities.length} centers found</p>
+                                    </div>
+                                    
+                                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                                        {loading ? (
+                                            <div className="text-center py-10 text-gray-500">Searching...</div>
+                                        ) : filteredFacilities.length > 0 ? (
+                                            filteredFacilities.map(facility => (
+                                                <FacilityCard 
+                                                    key={facility.id} 
+                                                    facility={facility} 
+                                                    selected={selectedFacility?.id === facility.id}
+                                                    onClick={() => setSelectedFacility(facility)}
+                                                />
+                                            ))
+                                        ) : (
+                                            <div className="text-center py-10 text-gray-500">No facilities found in this area.</div>
+                                        )}
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,9 @@ use App\Http\Controllers\AdminFacilityController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\RewardCalculatorController;
+use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\PickupRequestController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,6 +30,18 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/picture', [ProfileController::class, 'destroyPicture'])->name('profile.picture.destroy');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Reward Calculator
+    Route::get('/calculator', [RewardCalculatorController::class, 'index'])->name('calculator');
+    Route::post('/calculator', [RewardCalculatorController::class, 'calculate'])->name('calculator.calculate');
+
+    // Gamification Leaderboard
+    Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
+
+    // Home Pickups
+    Route::get('/pickups', [PickupRequestController::class, 'index'])->name('pickups.index');
+    Route::post('/pickups', [PickupRequestController::class, 'store'])->name('pickups.store');
+    Route::post('/pickups/{id}/cancel', [PickupRequestController::class, 'cancel'])->name('pickups.cancel');
 });
 
 // ─── Admin Area (requires auth + admin role) ──────────────────────────────
@@ -43,6 +58,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // Facility Management
         Route::resource('facilities', AdminFacilityController::class);
+
+        // Review Moderation
+        Route::get('/reviews', [App\Http\Controllers\AdminReviewController::class, 'index'])->name('reviews.index');
+        Route::post('/reviews/{id}/approve', [App\Http\Controllers\AdminReviewController::class, 'approve'])->name('reviews.approve');
+        Route::delete('/reviews/{id}', [App\Http\Controllers\AdminReviewController::class, 'destroy'])->name('reviews.destroy');
     });
 });
 

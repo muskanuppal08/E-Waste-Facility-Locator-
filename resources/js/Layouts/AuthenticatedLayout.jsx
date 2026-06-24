@@ -32,12 +32,43 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </NavLink>
                                 
                                 {user?.role === 'admin' && (
-                                    <NavLink
-                                        href={route('admin.facilities.index')}
-                                        active={route().current('admin.facilities.*')}
-                                    >
-                                        Manage Facilities
-                                    </NavLink>
+                                    <>
+                                        <NavLink
+                                            href={route('admin.facilities.index')}
+                                            active={route().current('admin.facilities.*')}
+                                        >
+                                            Manage Facilities
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('admin.reviews.index')}
+                                            active={route().current('admin.reviews.index')}
+                                        >
+                                            Manage Reviews
+                                        </NavLink>
+                                    </>
+                                )}
+
+                                {user?.role === 'user' && (
+                                    <>
+                                        <NavLink
+                                            href={route('calculator')}
+                                            active={route().current('calculator')}
+                                        >
+                                            Reward Calculator
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('leaderboard')}
+                                            active={route().current('leaderboard')}
+                                        >
+                                            Leaderboard & Badges
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('pickups.index')}
+                                            active={route().current('pickups.*')}
+                                        >
+                                            Home Pickups
+                                        </NavLink>
+                                    </>
                                 )}
 
                                 <NavLink
@@ -169,12 +200,43 @@ export default function AuthenticatedLayout({ header, children }) {
                         </ResponsiveNavLink>
 
                         {user?.role === 'admin' && (
-                            <ResponsiveNavLink
-                                href={route('admin.facilities.index')}
-                                active={route().current('admin.facilities.*')}
-                            >
-                                Manage Facilities
-                            </ResponsiveNavLink>
+                            <>
+                                <ResponsiveNavLink
+                                    href={route('admin.facilities.index')}
+                                    active={route().current('admin.facilities.*')}
+                                >
+                                    Manage Facilities
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.reviews.index')}
+                                    active={route().current('admin.reviews.index')}
+                                >
+                                    Manage Reviews
+                                </ResponsiveNavLink>
+                            </>
+                        )}
+
+                        {user?.role === 'user' && (
+                             <>
+                                 <ResponsiveNavLink
+                                     href={route('calculator')}
+                                     active={route().current('calculator')}
+                                 >
+                                     Reward Calculator
+                                 </ResponsiveNavLink>
+                                 <ResponsiveNavLink
+                                     href={route('leaderboard')}
+                                     active={route().current('leaderboard')}
+                                 >
+                                     Leaderboard & Badges
+                                 </ResponsiveNavLink>
+                                 <ResponsiveNavLink
+                                     href={route('pickups.index')}
+                                     active={route().current('pickups.index')}
+                                 >
+                                     Home Pickups
+                                 </ResponsiveNavLink>
+                             </>
                         )}
 
                         <ResponsiveNavLink

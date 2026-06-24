@@ -36,6 +36,9 @@ class AdminFacilityController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:500',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'pincode' => 'required|string|max:10',
             'phone' => 'required|string|max:20',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
@@ -68,6 +71,9 @@ class AdminFacilityController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:500',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'pincode' => 'required|string|max:10',
             'phone' => 'required|string|max:20',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',

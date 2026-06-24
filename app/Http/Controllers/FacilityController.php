@@ -65,8 +65,11 @@ class FacilityController extends Controller
         }
 
         $query = EwasteCenter::where(function($q) use ($queryText) {
-            $q->where('address', 'LIKE', "%{$queryText}%")
-              ->orWhere('name', 'LIKE', "%{$queryText}%");
+            $q->where('name', 'LIKE', "%{$queryText}%")
+              ->orWhere('address', 'LIKE', "%{$queryText}%")
+              ->orWhere('city', 'LIKE', "%{$queryText}%")
+              ->orWhere('state', 'LIKE', "%{$queryText}%")
+              ->orWhere('pincode', 'LIKE', "%{$queryText}%");
         });
 
         // If location is provided, calculate distance for search results too
@@ -88,7 +91,9 @@ class FacilityController extends Controller
 
     public function show($id)
     {
-        return response()->json(EwasteCenter::findOrFail($id));
+        return response()->json(EwasteCenter::with(['reviews' => function($query) {
+            $query->where('approved', true)->with('user');
+        }])->findOrFail($id));
     }
 
     public function openNow()
@@ -114,12 +119,10 @@ class FacilityController extends Controller
             'user_id' => auth()->id(),
             'rating' => $request->rating,
             'comment' => $request->comment,
+            'approved' => false, // default to pending moderation
         ]);
 
-        $facility->update([
-            'rating' => $facility->reviews()->avg('rating'),
-            'total_reviews' => $facility->reviews()->count(),
-        ]);
+        $facility->recalculateRating();
 
         return response()->json(['message' => 'Review submitted successfully']);
     }
