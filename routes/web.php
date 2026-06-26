@@ -67,6 +67,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Pickup Requests Moderation
         Route::get('/pickups', [App\Http\Controllers\AdminPickupController::class, 'index'])->name('pickups.index');
         Route::post('/pickups/{id}/status', [App\Http\Controllers\AdminPickupController::class, 'updateStatus'])->name('pickups.status');
+
+        // User Management & Points
+        Route::get('/users', [App\Http\Controllers\AdminUserController::class, 'index'])->name('users.index');
+        Route::post('/users/{id}/role', [App\Http\Controllers\AdminUserController::class, 'updateRole'])->name('users.role');
+        Route::post('/users/{id}/points', [App\Http\Controllers\AdminUserController::class, 'adjustPoints'])->name('users.points');
+        Route::delete('/users/{id}', [App\Http\Controllers\AdminUserController::class, 'destroy'])->name('users.destroy');
+
+        // Education Management
+        Route::get('/education', [App\Http\Controllers\AdminEducationController::class, 'index'])->name('education.index');
+
+        // Reports Generation
+        Route::get('/reports', [App\Http\Controllers\AdminReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/download/{type}', [App\Http\Controllers\AdminReportController::class, 'download'])->name('reports.download');
     });
 });
 

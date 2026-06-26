@@ -51,6 +51,24 @@ export default function AuthenticatedLayout({ header, children }) {
                                         >
                                             Manage Pickups
                                         </NavLink>
+                                        <NavLink
+                                            href={route('admin.users.index')}
+                                            active={route().current('admin.users.*')}
+                                        >
+                                            Manage Users
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('admin.education.index')}
+                                            active={route().current('admin.education.*')}
+                                        >
+                                            Manage Education
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('admin.reports.index')}
+                                            active={route().current('admin.reports.*')}
+                                        >
+                                            System Reports
+                                        </NavLink>
                                     </>
                                 )}
 
@@ -224,6 +242,24 @@ export default function AuthenticatedLayout({ header, children }) {
                                     active={route().current('admin.pickups.index')}
                                 >
                                     Manage Pickups
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.users.index')}
+                                    active={route().current('admin.users.index')}
+                                >
+                                    Manage Users
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.education.index')}
+                                    active={route().current('admin.education.index')}
+                                >
+                                    Manage Education
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.reports.index')}
+                                    active={route().current('admin.reports.index')}
+                                >
+                                    System Reports
                                 </ResponsiveNavLink>
                             </>
                         )}
