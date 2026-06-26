@@ -22,9 +22,15 @@ A comprehensive, gamified platform designed to encourage responsible electronic 
    - Dynamic Green Levels: *Eco Beginner*, *Green Warrior*, and *Earth Saver*.
    - Automatic badges allocation system based on user achievements.
    - Global Leaderboard showcasing points, rankings, and unlocked badge achievements.
-6. **Module 6: Pickup Request Module (User Facing Half)**
+6. **Module 6: E-Waste Home Pickup Request**
    - Doorstep collection scheduling wizard including device category cards, future date filters, and preferred time slots.
    - Interactive user logs to monitor scheduled pickups and cancel pending requests.
+   - Admin/Recycling partner scheduling console to manage collections, add driver notes, and update statuses inline.
+7. **Module 7: Admin Panel**
+   - **Manage Users**: Toggle user/admin roles, delete user profiles, and view member parameters.
+   - **Manage Reward Points**: Adjust user eco-points dynamically via an administrative modal form (milestone badges re-evaluate automatically).
+   - **Manage Education**: Dedicated page to manage educational device hazards data.
+   - **Generate Reports**: Downloadable CSV reports for registered users, certified facilities, and pickup collection logs.
 
 ---
 
@@ -92,6 +98,10 @@ Here is the table of all routes and URLs you can visit to go through and verify 
 | **[`/admin/dashboard`](http://127.0.0.1:8000/admin/dashboard)** | Admin (`role:admin`) | Module 1 & 4 | **Admin Dashboard**: Displays aggregate analytics metrics for users, facilities, and calculations. |
 | **[`/admin/facilities`](http://127.0.0.1:8000/admin/facilities)** | Admin (`role:admin`) | Module 2 | **Facility CRUD Manager**: Admin panel to add, edit, or delete certified recycling centers. |
 | **[`/admin/reviews`](http://127.0.0.1:8000/admin/reviews)** | Admin (`role:admin`) | Module 4 | **Review Moderation**: Approve or delete pending reviews submitted by users. |
+| **[`/admin/pickups`](http://127.0.0.1:8000/admin/pickups)** | Admin (`role:admin`) | Module 6 | **Manage Pickups**: Schedule pending pickups, mark completed, and log driver instructions. |
+| **[`/admin/users`](http://127.0.0.1:8000/admin/users)** | Admin (`role:admin`) | Module 7 | **Manage Users**: Toggle user/admin roles, delete users, and adjust user eco-points. |
+| **[`/admin/education`](http://127.0.0.1:8000/admin/education)** | Admin (`role:admin`) | Module 7 | **Manage Education**: Add, edit, or delete educational device hazard profiles. |
+| **[`/admin/reports`](http://127.0.0.1:8000/admin/reports)** | Admin (`role:admin`) | Module 7 | **System Reports**: View summary statistics and export database tables. |
 
 ---
 
@@ -104,3 +114,4 @@ Here is the table of all routes and URLs you can visit to go through and verify 
 | `GET` | `/api/facilities/{id}` | Fetches details and approved reviews for a single facility. |
 | `POST` | `/api/facilities/{id}/review` | Saves a new star rating and review comment (auth required). |
 | `GET` | `/api/devices` | Returns educational details, hazardous elements, and health facts for electronic devices. |
+| `GET` | `/admin/reports/download/{type}` | Generates and downloads a CSV report for `users`, `facilities`, or `pickups` (admin required). |
