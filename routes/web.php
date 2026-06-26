@@ -8,6 +8,7 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\RewardCalculatorController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\PickupRequestController;
+use App\Http\Controllers\RecommendationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -42,6 +43,10 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/pickups', [PickupRequestController::class, 'index'])->name('pickups.index');
     Route::post('/pickups', [PickupRequestController::class, 'store'])->name('pickups.store');
     Route::post('/pickups/{id}/cancel', [PickupRequestController::class, 'cancel'])->name('pickups.cancel');
+
+    // AI Recommendation Assistant
+    Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
+    Route::post('/recommendations/suggest', [RecommendationController::class, 'suggest'])->name('recommendations.suggest');
 });
 
 // ─── Admin Area (requires auth + admin role) ──────────────────────────────

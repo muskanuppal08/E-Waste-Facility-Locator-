@@ -31,6 +31,10 @@ A comprehensive, gamified platform designed to encourage responsible electronic 
    - **Manage Reward Points**: Adjust user eco-points dynamically via an administrative modal form (milestone badges re-evaluate automatically).
    - **Manage Education**: Dedicated page to manage educational device hazards data.
    - **Generate Reports**: Downloadable CSV reports for registered users, certified facilities, and pickup collection logs.
+8. **Module 8: AI Recommendation System (Advanced)**
+   - **NLP Natural Language Processing**: Categorization of user queries to detect target device type, brand, and condition state (Excellent, Good, Average, Poor) with corresponding reward multipliers.
+   - **Proximity Search**: Integrates geolocational coordinates to locate the closest certified recycling center accepting the specific target device.
+   - **Hazards & Guidelines**: Pulls hazard information, health effects, and recycling instructions from the database for the resolved device category.
 
 ---
 
@@ -94,6 +98,7 @@ Here is the table of all routes and URLs you can visit to go through and verify 
 | **[`/calculator`](http://127.0.0.1:8000/calculator)** | User (`role:user`) | Module 4 | **Reward Calculator**: Visual device selector wizard; estimates eco-points, recovered metals, and carbon offset values. |
 | **[`/leaderboard`](http://127.0.0.1:8000/leaderboard)** | User (`role:user`) | Module 5 | **Leaderboard & Badges**: Leaderboard rankings, animated level status indicators, and unlocked/locked badge achievements grid. |
 | **[`/pickups`](http://127.0.0.1:8000/pickups)** | User (`role:user`) | Module 6 | **Home Pickups**: Schedule doorstep collections, select slots/future dates, track historical requests, and cancel pending orders. |
+| **[`/recommendations`](http://127.0.0.1:8000/recommendations)** | User (`role:user`) | Module 8 | **AI Assistant**: Natural language prompt field and template selectors to parse e-waste specs, calculate eco-points, locate nearest centers, and inspect toxicity warnings. |
 | **[`/profile`](http://127.0.0.1:8000/profile)** | User (`role:user`) | Module 1 | **Profile Manager**: Edit profile details, change passwords, and upload/delete custom avatar images. |
 | **[`/admin/dashboard`](http://127.0.0.1:8000/admin/dashboard)** | Admin (`role:admin`) | Module 1 & 4 | **Admin Dashboard**: Displays aggregate analytics metrics for users, facilities, and calculations. |
 | **[`/admin/facilities`](http://127.0.0.1:8000/admin/facilities)** | Admin (`role:admin`) | Module 2 | **Facility CRUD Manager**: Admin panel to add, edit, or delete certified recycling centers. |
@@ -114,4 +119,5 @@ Here is the table of all routes and URLs you can visit to go through and verify 
 | `GET` | `/api/facilities/{id}` | Fetches details and approved reviews for a single facility. |
 | `POST` | `/api/facilities/{id}/review` | Saves a new star rating and review comment (auth required). |
 | `GET` | `/api/devices` | Returns educational details, hazardous elements, and health facts for electronic devices. |
+| `POST` | `/recommendations/suggest` | Accepts a natural language query and coordinates to output parsed e-waste specs, closest centers, rewards, and safety guidelines. |
 | `GET` | `/admin/reports/download/{type}` | Generates and downloads a CSV report for `users`, `facilities`, or `pickups` (admin required). |

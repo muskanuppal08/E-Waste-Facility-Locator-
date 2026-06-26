@@ -92,6 +92,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                         >
                                             Home Pickups
                                         </NavLink>
+                                        <NavLink
+                                            href={route('recommendations.index')}
+                                            active={route().current('recommendations.*')}
+                                        >
+                                            AI Assistant
+                                        </NavLink>
                                     </>
                                 )}
 
@@ -283,6 +289,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                      active={route().current('pickups.index')}
                                  >
                                      Home Pickups
+                                 </ResponsiveNavLink>
+                                 <ResponsiveNavLink
+                                     href={route('recommendations.index')}
+                                     active={route().current('recommendations.index')}
+                                 >
+                                     AI Assistant
                                  </ResponsiveNavLink>
                              </>
                         )}
